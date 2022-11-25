@@ -29,7 +29,7 @@
             </TextField>
          </children>
       </HBox>
-      <Button mnemonicParsing="false" onAction="#showAccountsSummary" text="Continue">
+      <Button mnemonicParsing="false" onAction="#showAccountsSummaryScene" text="Continue">
          <font>
             <Font size="24.0" />
          </font>
