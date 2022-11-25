@@ -2,6 +2,7 @@ package application;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -20,11 +21,18 @@ public class BankingApplicationController {
 
     @FXML
     void showAccountsSummary(ActionEvent event) {
-    	Scene introScene = applicationStage.getScene();
     	VBox allRows = new VBox();
     	Scene accountsSummaryScene = new Scene(allRows,600,600);
         String nameEntered = enterNameTextfield.getText();
         if (nameEntered != "") {
+        	Label welcomeLabel = new Label();
+        	welcomeLabel.setText("Welcome " + nameEntered + "!");
+        	VBox.setMargin(welcomeLabel, new Insets(10,5,10,5));
+        	Label accountsSummaryTitle = new Label();
+        	accountsSummaryTitle.setText("Accounts Summary");
+        	VBox.setMargin(accountsSummaryTitle, new Insets(10,5,10,5));
+        	allRows.getChildren().addAll(welcomeLabel,accountsSummaryTitle);
+        	
         	applicationStage.setScene(accountsSummaryScene);
         }
         else {
