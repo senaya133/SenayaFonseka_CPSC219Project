@@ -45,10 +45,8 @@ public class BankingApplicationController {
 		double fiveDigitNum2 = 10000 + (Math.random()*99999);
 		String chequingAccountNumber = "12345-" + (int)twoDigitNum1 + "-" + (int)fiveDigitNum1;
         String savingsAccountNumber = "12345-" + (int)twoDigitNum2 + "-" + (int)fiveDigitNum2;
-		ChequingAccount primaryChequingAccount = new ChequingAccount("Chequing Account (" + chequingAccountNumber
-				+ ")",chequingAccountNumber);
-    	SavingsAccount primarySavingsAccount = new SavingsAccount("Savings Account (" + savingsAccountNumber
-    			+ ")",savingsAccountNumber);
+		ChequingAccount primaryChequingAccount = new ChequingAccount("Chequing Account",chequingAccountNumber);
+    	SavingsAccount primarySavingsAccount = new SavingsAccount("Savings Account",savingsAccountNumber);
     	bankAccounts.add(primaryChequingAccount);
     	bankAccounts.add(primarySavingsAccount);
 		return bankAccounts;
@@ -85,14 +83,15 @@ public class BankingApplicationController {
         	allRows.getChildren().addAll(welcomeLabel,accountsSummaryTitle,bankAccountsHeader);
             for (int index = 0;index < bankAccounts.size();index++) {
             	HBox bankAccountRow = new HBox();
-            	Label bankAccountName = new Label((bankAccounts.get(index)).getAccountName());
+            	Label bankAccountName = new Label((bankAccounts.get(index)).accountLabel());
             	HBox.setMargin(bankAccountName, new Insets(0,5,10,10));
-            	Label amountLabel = new Label(String.format("$%.2f CAD", (bankAccounts.get(index)).getBalance()));
+            	// Label amountLabel = new Label(String.format("$%.2f CAD", (bankAccounts.get(index)).getBalance()));
             	Button viewAccountButton = new Button("View Account Details");
+            	HBox.setMargin(viewAccountButton, new Insets (0,5,10,25));
             	BankAccount bankAccount = bankAccounts.get(index);
             	viewAccountButton.setOnAction(doneEvent -> getAccountDetailsScene(doneEvent,bankAccount));
-            	bankAccountRow.getChildren().addAll(bankAccountName,amountLabel,viewAccountButton);
-            	HBox.setMargin(amountLabel, new Insets(0,5,10,210));
+            	bankAccountRow.getChildren().addAll(bankAccountName,viewAccountButton);
+            	// HBox.setMargin(amountLabel, new Insets(0,5,10,210));
             	allRows.getChildren().add(bankAccountRow);
             }
         	

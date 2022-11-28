@@ -27,9 +27,38 @@ public class BankAccount {
 		return new String(accountName);
 	}
 	
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+	
 	public double getBalance() {
 		BankAccount copyOfAccount = new BankAccount(this);
 		return copyOfAccount.balance;
+	}
+	
+	public void deposit(double depositAmount) {
+		if (depositAmount > 0) {
+			balance += depositAmount;
+		}
+	}
+	
+	public void withdraw(double withdrawalAmount) {
+		if (withdrawalAmount > 0 && balance - withdrawalAmount >= 0.00) {
+			balance -= withdrawalAmount;
+		}
+	}
+		
+	public void transfer(double transferAmount, BankAccount accountToTransferMoneyInto) {
+		if (transferAmount > 0 && balance - transferAmount >= 0.00) {
+			withdraw(transferAmount);
+			accountToTransferMoneyInto.deposit(transferAmount);
+		}
+	}
+	
+	public String accountLabel() {
+		String balanceAsString = String.format("$%.2f CAD", balance);
+		return (accountName + " (" + accountNumber + "): " + balanceAsString);
+
 	}
 
 }
