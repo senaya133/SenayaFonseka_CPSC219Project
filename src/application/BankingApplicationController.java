@@ -31,6 +31,8 @@ public class BankingApplicationController {
 
 	private Stage primaryStage;
 	
+	/* the code from this method mainly came from the Nov25_Using Multiple FXML files presentation which is under content in 
+	 * the CPSC 219 D2L shell */
 	public void takeFocus() {
 		applicationStage.setScene(myScene);
 	}
@@ -93,6 +95,8 @@ public class BankingApplicationController {
         }
     }
     
+    /* in general, most of the code for this method was used from the presentation Nov25_Using Multiple FXML files under content 
+     * in the CPSC 219 D2L shell, with certain variables being changed for this project */
     void getAccountDetailsScene(ActionEvent event,BankAccount bankAccount) {
     	if (accountDetailsController == null) {
     		try {

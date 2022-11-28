@@ -9,6 +9,10 @@ public class BankingApplicationAccountDetailsController {
 	private Scene myScene;
 	private BankingApplicationController nextController;
 	
+	/* the creation of the setApplicationStage(). setScene(),setNextController(), and takeFocus() methods were all used based
+	 * on what was suggested in the Nov25_Using Multiple FXML files presentation which is under content in the CPSC 219 D2L shell
+	 */
+	
 	public void setApplicationStage(Stage aStage) {
 		applicationStage = aStage;
 	}
