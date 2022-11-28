@@ -2,21 +2,34 @@ package application;
 
 public class BankAccount {
 	// attributes/data
-	private double amount;
+	protected double balance;
 	private String accountName;
+	private String accountNumber;
 	
 	//actions
-	BankAccount(String nameOfAccount) {
+	BankAccount(String nameOfAccount,String accountNumber) {
 		accountName = nameOfAccount;
-		amount = 0.00;
+		balance = 0.00;
+		this.accountNumber = accountNumber;
 	}
 	
-	public String getAccountName() {
+	public BankAccount(BankAccount accountToCopy) {
+		this.balance = accountToCopy.balance;
+		this.accountNumber = accountToCopy.accountNumber;
+	}
+	
+	public String setAccountName(String nameOfAccount) {
+		accountName = nameOfAccount;
 		return accountName;
 	}
 	
-	public double getAmount() {
-		return amount;
+	public String getAccountName() {
+		return new String(accountName);
+	}
+	
+	public double getBalance() {
+		BankAccount copyOfAccount = new BankAccount(this);
+		return copyOfAccount.balance;
 	}
 
 }

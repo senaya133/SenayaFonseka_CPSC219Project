@@ -39,8 +39,16 @@ public class BankingApplicationController {
 	
 	public ArrayList<BankAccount> createDefaultBankAccounts() {
 		ArrayList<BankAccount> bankAccounts = new ArrayList<BankAccount>();
-		ChequingAccount primaryChequingAccount = new ChequingAccount("Chequing Account");
-    	SavingsAccount primarySavingsAccount = new SavingsAccount("Savings Account");
+		double twoDigitNum1 = 10 +(Math.random()*99);
+		double fiveDigitNum1 = 10000 + (Math.random()*99999);
+		double twoDigitNum2 = 10 +(Math.random()*99);
+		double fiveDigitNum2 = 10000 + (Math.random()*99999);
+		String chequingAccountNumber = "12345-" + (int)twoDigitNum1 + "-" + (int)fiveDigitNum1;
+        String savingsAccountNumber = "12345-" + (int)twoDigitNum2 + "-" + (int)fiveDigitNum2;
+		ChequingAccount primaryChequingAccount = new ChequingAccount("Chequing Account (" + chequingAccountNumber
+				+ ")",chequingAccountNumber);
+    	SavingsAccount primarySavingsAccount = new SavingsAccount("Savings Account (" + savingsAccountNumber
+    			+ ")",savingsAccountNumber);
     	bankAccounts.add(primaryChequingAccount);
     	bankAccounts.add(primarySavingsAccount);
 		return bankAccounts;
@@ -50,7 +58,7 @@ public class BankingApplicationController {
 		double totalAmount = 0.00;
 		int index = 0;
 		while (index < bankAccounts.size()) {
-			totalAmount += ((BankAccount)bankAccounts.get(index)).getAmount();
+			totalAmount += ((BankAccount)bankAccounts.get(index)).getBalance();
 			index++;
 		}
 		return totalAmount;
@@ -59,7 +67,7 @@ public class BankingApplicationController {
     @FXML
     void showAccountsSummaryScene(ActionEvent event) {
     	VBox allRows = new VBox();
-    	Scene accountsSummaryScene = new Scene(allRows,600,600);
+    	Scene accountsSummaryScene = new Scene(allRows,700,600);
         String nameEntered = enterNameTextfield.getText();
         if (nameEntered != "") {
         	Label welcomeLabel = new Label("Welcome " + nameEntered + "!");
@@ -79,7 +87,7 @@ public class BankingApplicationController {
             	HBox bankAccountRow = new HBox();
             	Label bankAccountName = new Label((bankAccounts.get(index)).getAccountName());
             	HBox.setMargin(bankAccountName, new Insets(0,5,10,10));
-            	Label amountLabel = new Label(String.format("$%.2f CAD", (bankAccounts.get(index)).getAmount()));
+            	Label amountLabel = new Label(String.format("$%.2f CAD", (bankAccounts.get(index)).getBalance()));
             	Button viewAccountButton = new Button("View Account Details");
             	BankAccount bankAccount = bankAccounts.get(index);
             	viewAccountButton.setOnAction(doneEvent -> getAccountDetailsScene(doneEvent,bankAccount));
