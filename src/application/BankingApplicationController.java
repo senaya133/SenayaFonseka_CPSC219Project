@@ -2,6 +2,7 @@ package application;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,14 +38,20 @@ public class BankingApplicationController {
 		applicationStage.setScene(myScene);
 	}
 	
+	private static int getRandomNumberInRange(int min, int max) {
+
+		if (min >= max) {
+			throw new IllegalArgumentException("max must be greater than min");
+		}
+
+		Random r = new Random();
+		return r.nextInt((max - min) + 1) + min;
+	}
+	
 	public ArrayList<BankAccount> createDefaultBankAccounts() {
 		ArrayList<BankAccount> bankAccounts = new ArrayList<BankAccount>();
-		double twoDigitNum1 = 10 +(Math.random()*99);
-		double fiveDigitNum1 = 10000 + (Math.random()*99999);
-		double twoDigitNum2 = 10 +(Math.random()*99);
-		double fiveDigitNum2 = 10000 + (Math.random()*99999);
-		String chequingAccountNumber = "12345-" + (int)twoDigitNum1 + "-" + (int)fiveDigitNum1;
-        String savingsAccountNumber = "12345-" + (int)twoDigitNum2 + "-" + (int)fiveDigitNum2;
+		String chequingAccountNumber = "12345-" + getRandomNumberInRange(10,99) + "-" + getRandomNumberInRange(10000,99999);
+        String savingsAccountNumber = "12345-" + getRandomNumberInRange(10,99) + "-" + getRandomNumberInRange(10000,99999);
 		ChequingAccount primaryChequingAccount = new ChequingAccount("Chequing Account",chequingAccountNumber);
     	SavingsAccount primarySavingsAccount = new SavingsAccount("Savings Account",savingsAccountNumber);
     	bankAccounts.add(primaryChequingAccount);
