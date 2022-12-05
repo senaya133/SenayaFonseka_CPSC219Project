@@ -2,6 +2,7 @@ package application;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,10 +38,26 @@ public class BankingApplicationController {
 		applicationStage.setScene(myScene);
 	}
 	
+	/* credit goes to the source from this site (https://mkyong.com/java/java-generate-random-integers-in-a-range/) which 
+	 * showed a method that allows for a random number to be generated within a certain range (the min and max values in the range
+	 * are inclusive)
+	 */
+	private static int getRandomNumberInRange(int min, int max) {
+
+		if (min >= max) {
+			throw new IllegalArgumentException("max must be greater than min");
+		}
+
+		Random r = new Random();
+		return r.nextInt((max - min) + 1) + min;
+	}
+	
 	public ArrayList<BankAccount> createDefaultBankAccounts() {
 		ArrayList<BankAccount> bankAccounts = new ArrayList<BankAccount>();
-		ChequingAccount primaryChequingAccount = new ChequingAccount("Chequing Account");
-    	SavingsAccount primarySavingsAccount = new SavingsAccount("Savings Account");
+		String chequingAccountNumber = "12345-" + getRandomNumberInRange(10,99) + "-" + getRandomNumberInRange(10000,99999);
+        String savingsAccountNumber = "12345-" + getRandomNumberInRange(10,99) + "-" + getRandomNumberInRange(10000,99999);
+		ChequingAccount primaryChequingAccount = new ChequingAccount("Chequing Account",chequingAccountNumber);
+    	SavingsAccount primarySavingsAccount = new SavingsAccount("Savings Account",savingsAccountNumber);
     	bankAccounts.add(primaryChequingAccount);
     	bankAccounts.add(primarySavingsAccount);
 		return bankAccounts;
@@ -50,7 +67,7 @@ public class BankingApplicationController {
 		double totalAmount = 0.00;
 		int index = 0;
 		while (index < bankAccounts.size()) {
-			totalAmount += ((BankAccount)bankAccounts.get(index)).getAmount();
+			totalAmount += ((BankAccount)bankAccounts.get(index)).getBalance();
 			index++;
 		}
 		return totalAmount;
@@ -59,7 +76,7 @@ public class BankingApplicationController {
     @FXML
     void showAccountsSummaryScene(ActionEvent event) {
     	VBox allRows = new VBox();
-    	Scene accountsSummaryScene = new Scene(allRows,600,600);
+    	Scene accountsSummaryScene = new Scene(allRows,700,600);
         String nameEntered = enterNameTextfield.getText();
         if (nameEntered != "") {
         	Label welcomeLabel = new Label("Welcome " + nameEntered + "!");
@@ -77,14 +94,15 @@ public class BankingApplicationController {
         	allRows.getChildren().addAll(welcomeLabel,accountsSummaryTitle,bankAccountsHeader);
             for (int index = 0;index < bankAccounts.size();index++) {
             	HBox bankAccountRow = new HBox();
-            	Label bankAccountName = new Label((bankAccounts.get(index)).getAccountName());
+            	Label bankAccountName = new Label((bankAccounts.get(index)).accountLabel());
             	HBox.setMargin(bankAccountName, new Insets(0,5,10,10));
-            	Label amountLabel = new Label(String.format("$%.2f CAD", (bankAccounts.get(index)).getAmount()));
+            	// Label amountLabel = new Label(String.format("$%.2f CAD", (bankAccounts.get(index)).getBalance()));
             	Button viewAccountButton = new Button("View Account Details");
+            	HBox.setMargin(viewAccountButton, new Insets (0,5,10,25));
             	BankAccount bankAccount = bankAccounts.get(index);
             	viewAccountButton.setOnAction(doneEvent -> getAccountDetailsScene(doneEvent,bankAccount));
-            	bankAccountRow.getChildren().addAll(bankAccountName,amountLabel,viewAccountButton);
-            	HBox.setMargin(amountLabel, new Insets(0,5,10,210));
+            	bankAccountRow.getChildren().addAll(bankAccountName,viewAccountButton);
+            	// HBox.setMargin(amountLabel, new Insets(0,5,10,210));
             	allRows.getChildren().add(bankAccountRow);
             }
         	
@@ -104,6 +122,7 @@ public class BankingApplicationController {
     			VBox root = loader.load(new FileInputStream("src/application/BankingApplicationAccountDetailsView.fxml"));
     			accountDetailsController = (BankingApplicationAccountDetailsController)loader.getController();
     			accountDetailsController.setApplicationStage(applicationStage);
+    			accountDetailsController.setBankAccount(bankAccount);
     			accountDetailsController.setScene(new Scene(root,900,300));
     			accountDetailsController.setNextController(this);
     		} catch(Exception e) {
