@@ -36,10 +36,18 @@ public class BankAccount {
 		return copyOfAccount.balance;
 	}
 	
+	protected boolean sufficientFunds(double withdrawalAmount) {
+		if (withdrawalAmount > 0 && (balance - withdrawalAmount) > 0) {
+			return true;
+		}
+		else return false;
+	}
+	
 	public void deposit(double depositAmount) {
 		if (depositAmount > 0) {
 			balance += depositAmount;
 		}
+		System.out.print(balance);
 	}
 	
 	public void withdraw(double withdrawalAmount) {

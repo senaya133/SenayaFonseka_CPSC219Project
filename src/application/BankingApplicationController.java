@@ -38,6 +38,10 @@ public class BankingApplicationController {
 		applicationStage.setScene(myScene);
 	}
 	
+	/* credit goes to the source from this site (https://mkyong.com/java/java-generate-random-integers-in-a-range/) which 
+	 * showed a method that allows for a random number to be generated within a certain range (the min and max values in the range
+	 * are inclusive)
+	 */
 	private static int getRandomNumberInRange(int min, int max) {
 
 		if (min >= max) {
@@ -118,6 +122,7 @@ public class BankingApplicationController {
     			VBox root = loader.load(new FileInputStream("src/application/BankingApplicationAccountDetailsView.fxml"));
     			accountDetailsController = (BankingApplicationAccountDetailsController)loader.getController();
     			accountDetailsController.setApplicationStage(applicationStage);
+    			accountDetailsController.setBankAccount(bankAccount);
     			accountDetailsController.setScene(new Scene(root,900,300));
     			accountDetailsController.setNextController(this);
     		} catch(Exception e) {

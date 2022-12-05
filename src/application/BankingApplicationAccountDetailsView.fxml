@@ -1,13 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="application.BankingApplicationAccountDetailsController">
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.BankingApplicationAccountDetailsController">
    <children>
-      <Button mnemonicParsing="false" text="Button" />
+      <Label fx:id="accountNameLabel" text="Account: ">
+         <VBox.margin>
+            <Insets left="10.0" top="10.0" />
+         </VBox.margin></Label>
+      <Label fx:id="accountNumberLabel" text="Account Number: ">
+         <VBox.margin>
+            <Insets left="10.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <Label fx:id="accountCurrentBalanceLabel" text="Current Balance: ">
+         <padding>
+            <Insets bottom="20.0" />
+         </padding>
+         <VBox.margin>
+            <Insets left="10.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+      <HBox prefHeight="50.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="depositButton" mnemonicParsing="false" onAction="#getDepositInformation" text="Deposit">
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="withdrawButton" mnemonicParsing="false" onAction="#getWithdrawalInformation" text="Withdraw" />
+         </children>
+      </HBox>
+      <Label text="Transactions">
+         <VBox.margin>
+            <Insets left="10.0" />
+         </VBox.margin>
+      </Label>
    </children>
 </VBox>
