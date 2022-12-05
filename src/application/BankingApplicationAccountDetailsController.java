@@ -79,8 +79,13 @@ public class BankingApplicationAccountDetailsController {
 		Button depositMoneyButton = new Button("Deposit money");
 		depositMoneyButton.setOnAction(doneEvent -> myBankAccount.deposit(Double.parseDouble(
 				enterAmountTextfield.getText())));
-		VBox.setMargin(depositMoneyButton, new Insets(10,10,10,10));
-		allRows.getChildren().addAll(enterAmountPrompt,enterAmountRow,depositMoneyButton);
+		Button returnButton = new Button("Return to Account Details");
+		returnButton.setOnAction(doneEvent -> applicationStage.setScene(myScene));
+		HBox buttonRow = new HBox();
+		buttonRow.getChildren().addAll(depositMoneyButton,returnButton);
+		HBox.setMargin(depositMoneyButton, new Insets(10,10,10,10));
+		HBox.setMargin(returnButton, new Insets(10,10,10,10));
+		allRows.getChildren().addAll(enterAmountPrompt,enterAmountRow,buttonRow);
 		applicationStage.setScene(depositInfoScene);
 	}
 	
