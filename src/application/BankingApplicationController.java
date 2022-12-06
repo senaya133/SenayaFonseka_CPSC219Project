@@ -22,7 +22,9 @@ public class BankingApplicationController {
 	
 	private Scene myScene;
 	
-	private BankingApplicationAccountDetailsController accountDetailsController;
+	private BankAccount myBankAccount;
+	
+	private BankingApplicationAccountDetailsController nextController;
 	
 	@FXML
     private TextField enterNameTextfield;
@@ -31,6 +33,25 @@ public class BankingApplicationController {
 	private Label enterNameErrorLabel;
 
 	private Stage primaryStage;
+
+	private BankingApplicationAccountDetailsController accountDetailsController;
+	
+	public void setApplicationStage(Stage aStage) {
+		applicationStage = aStage;
+	}
+	
+	public void setBankAccount(BankAccount bankAccount) {
+		myBankAccount = bankAccount;
+	}
+	
+	public void setScene(Scene accountDetailsScene) {
+		myScene = accountDetailsScene;
+		applicationStage.setTitle("Account Details");
+	}
+	
+	public void setNextController(BankingApplicationAccountDetailsController next) {
+		nextController = next;
+	}
 	
 	/* the code from this method mainly came from the Nov25_Using Multiple FXML files presentation which is under content in 
 	 * the CPSC 219 D2L shell */

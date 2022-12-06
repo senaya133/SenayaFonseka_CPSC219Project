@@ -2,8 +2,12 @@ package application;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -65,6 +69,14 @@ public class BankingApplicationAccountDetailsController {
 		applicationStage.setScene(myScene);
 	}
 	
+	public void returnToAccountDetailsScene() {
+		applicationStage.setTitle("Account Details");
+		accountNameLabel.setText("Account: " + myBankAccount.getAccountName());
+	    accountNumberLabel.setText("Account Number: " + myBankAccount.getAccountNumber());
+	    accountCurrentBalanceLabel.setText(String.format("Current Balance: $%.2f CAD", myBankAccount.getBalance()));
+	    applicationStage.setScene(myScene);
+	}
+	
 	public void getDepositInformation(ActionEvent event) {
 		VBox allRows = new VBox();
 		Scene depositInfoScene = new Scene(allRows,600,600);
@@ -80,13 +92,29 @@ public class BankingApplicationAccountDetailsController {
 		depositMoneyButton.setOnAction(doneEvent -> myBankAccount.deposit(Double.parseDouble(
 				enterAmountTextfield.getText())));
 		Button returnButton = new Button("Return to Account Details");
-		returnButton.setOnAction(doneEvent -> applicationStage.setScene(myScene));
+		returnButton.setOnAction(doneEvent -> returnToAccountDetailsScene());
 		HBox buttonRow = new HBox();
 		buttonRow.getChildren().addAll(depositMoneyButton,returnButton);
 		HBox.setMargin(depositMoneyButton, new Insets(10,10,10,10));
 		HBox.setMargin(returnButton, new Insets(10,10,10,10));
 		allRows.getChildren().addAll(enterAmountPrompt,enterAmountRow,buttonRow);
 		applicationStage.setScene(depositInfoScene);
+	}
+	
+	public void getAccountsSummaryScene(ActionEvent event) {
+		if (nextController == null) {
+    		try {
+    			FXMLLoader loader = new FXMLLoader();
+    			VBox root = loader.load(new FileInputStream("src/application/BankingApplicationView.fxml"));
+    			nextController = (BankingApplicationController)loader.getController();
+    			nextController.setApplicationStage(applicationStage);
+    			nextController.setScene(new Scene(root,900,300));
+    			nextController.setNextController(this);
+    		} catch(Exception e) {
+    			e.printStackTrace();
+    		}
+    	}
+		nextController.takeFocus();
 	}
 	
 	private void validateDepositAmountEntered(TextField enterAmountTextfield) {
