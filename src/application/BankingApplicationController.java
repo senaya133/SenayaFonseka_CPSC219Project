@@ -32,7 +32,7 @@ public class BankingApplicationController {
 	@FXML
 	private Label enterNameErrorLabel;
 
-	private Stage primaryStage;
+	private Scene accountsSummaryScene;
 
 	private BankingApplicationAccountDetailsController accountDetailsController;
 	
@@ -44,11 +44,6 @@ public class BankingApplicationController {
 		myBankAccount = bankAccount;
 	}
 	
-	public void setScene(Scene accountDetailsScene) {
-		myScene = accountDetailsScene;
-		applicationStage.setTitle("Account Details");
-	}
-	
 	public void setNextController(BankingApplicationAccountDetailsController next) {
 		nextController = next;
 	}
@@ -56,7 +51,8 @@ public class BankingApplicationController {
 	/* the code from this method mainly came from the Nov25_Using Multiple FXML files presentation which is under content in 
 	 * the CPSC 219 D2L shell */
 	public void takeFocus() {
-		applicationStage.setScene(myScene);
+		applicationStage.setScene(accountsSummaryScene);
+		applicationStage.setTitle("Accounts Summary");
 	}
 	
 	/* credit goes to the source from this site (https://mkyong.com/java/java-generate-random-integers-in-a-range/) which 
@@ -97,7 +93,7 @@ public class BankingApplicationController {
     @FXML
     void showAccountsSummaryScene(ActionEvent event) {
     	VBox allRows = new VBox();
-    	Scene accountsSummaryScene = new Scene(allRows,700,600);
+    	accountsSummaryScene = new Scene(allRows,700,600);
         String nameEntered = enterNameTextfield.getText();
         if (nameEntered != "") {
         	Label welcomeLabel = new Label("Welcome " + nameEntered + "!");

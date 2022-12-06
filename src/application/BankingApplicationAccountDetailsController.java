@@ -101,31 +101,11 @@ public class BankingApplicationAccountDetailsController {
 		applicationStage.setScene(depositInfoScene);
 	}
 	
+	@FXML
 	public void getAccountsSummaryScene(ActionEvent event) {
-		if (nextController == null) {
-    		try {
-    			FXMLLoader loader = new FXMLLoader();
-    			VBox root = loader.load(new FileInputStream("src/application/BankingApplicationView.fxml"));
-    			nextController = (BankingApplicationController)loader.getController();
-    			nextController.setApplicationStage(applicationStage);
-    			nextController.setScene(new Scene(root,900,300));
-    			nextController.setNextController(this);
-    		} catch(Exception e) {
-    			e.printStackTrace();
-    		}
+		if (nextController != null) {
+			nextController.takeFocus();
     	}
-		nextController.takeFocus();
-	}
-	
-	private void validateDepositAmountEntered(TextField enterAmountTextfield) {
-		boolean enteredAmountIsValid = true;
-		double amount = Double.parseDouble(enterAmountTextfield.getText());
-		enteredAmountIsValid = myBankAccount.sufficientFunds(amount);
-		if (enteredAmountIsValid) {
-			myBankAccount.deposit(Double.parseDouble(enterAmountTextfield.getText()));
-			applicationStage.setScene(myScene);
-		}
-
 	}
 
 	public void getWithdrawalInformation(ActionEvent event) {
