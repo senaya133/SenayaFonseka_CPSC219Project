@@ -20,7 +20,7 @@ import javafx.scene.control.TextField;
 
 public class BankingApplicationController {
 	
-	Stage applicationStage;
+	public Stage applicationStage;
 	
 	@FXML
     private TextField enterNameTextfield;
@@ -74,7 +74,7 @@ public class BankingApplicationController {
 		return r.nextInt((max - min) + 1) + min;
 	}
 	
-	public ArrayList<BankAccount> createDefaultBankAccounts() {
+	private ArrayList<BankAccount> createBankAccounts() {
 		ArrayList<BankAccount> bankAccounts = new ArrayList<BankAccount>();
 		String chequingAccountNumber = "12345-" + getRandomNumberInRange(10,99) + "-" + getRandomNumberInRange(10000,99999);
         String savingsAccountNumber = "12345-" + getRandomNumberInRange(10,99) + "-" + getRandomNumberInRange(10000,99999);
@@ -86,7 +86,7 @@ public class BankingApplicationController {
 		return bankAccounts;
 	}
 	
-	public double calculateTotalAmountFromAllBankAccounts(ArrayList<BankAccount> bankAccounts) {
+	private double calculateTotalAmountFromAllBankAccounts(ArrayList<BankAccount> bankAccounts) {
 		double totalAmount = 0.00;
 		int index = 0;
 		while (index < bankAccounts.size()) {
@@ -109,7 +109,7 @@ public class BankingApplicationController {
         	HBox bankAccountsHeader = new HBox();
         	Label bankAccountsTitle = new Label("Bank Accounts");
         	HBox.setMargin(bankAccountsTitle, new Insets(0,5,10,5));
-        	ArrayList<BankAccount> bankAccounts = createDefaultBankAccounts();
+        	ArrayList<BankAccount> bankAccounts = createBankAccounts();
         	double totalAmountFromAllBankAccounts = calculateTotalAmountFromAllBankAccounts(bankAccounts);
         	totalAmountLabel = new Label(String.format("Total:  $%.2f CAD", totalAmountFromAllBankAccounts));
         	HBox.setMargin(totalAmountLabel, new Insets(0,5,10,200));

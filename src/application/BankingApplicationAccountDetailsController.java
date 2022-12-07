@@ -81,7 +81,7 @@ public class BankingApplicationAccountDetailsController {
 		applicationStage.setScene(myScene);
 	}
 	
-	public void returnToAccountDetailsScene() {
+	private void returnToAccountDetailsScene() {
 		applicationStage.setTitle("Account Details");
 		accountNameLabel.setText("Account: " + myBankAccount.getAccountName());
 	    accountNumberLabel.setText("Account Number: " + myBankAccount.getAccountNumber());
@@ -126,13 +126,6 @@ public class BankingApplicationAccountDetailsController {
 		allRows.getChildren().addAll(enterAmountPrompt,enterAmountRow,buttonRow,responseToUserInputMessage);
 		VBox.setMargin(responseToUserInputMessage, new Insets(10,10,10,10));
 		applicationStage.setScene(depositInfoScene);
-	}
-	
-	@FXML
-	public void getAccountsSummaryScene(ActionEvent event) {
-		if (nextController != null) {
-			nextController.takeFocus();
-    	}
 	}
 
 	public void getWithdrawalInformation(ActionEvent event) {
@@ -221,6 +214,13 @@ public class BankingApplicationAccountDetailsController {
 		VBox.setMargin(accountThatUserTransfersIntoLabel, new Insets(10,10,10,10));
 		VBox.setMargin(responseToUserInputMessage, new Insets(10,10,10,10));
 		applicationStage.setScene(transferInfoScene);
+	}
+	
+	@FXML
+	private void getAccountsSummaryScene(ActionEvent event) {
+		if (nextController != null) {
+			nextController.takeFocus();
+    	}
 	}
 
 	
