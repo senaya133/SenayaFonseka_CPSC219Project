@@ -1,7 +1,5 @@
 package application;
 
-import javafx.scene.control.Label;
-
 public class BankAccount {
 	// attributes/data
 	protected double balance;

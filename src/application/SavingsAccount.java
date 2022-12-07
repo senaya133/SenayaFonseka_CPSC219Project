@@ -6,7 +6,7 @@ public class SavingsAccount extends BankAccount {
 	}
 	
 	protected boolean sufficientFunds(double withdrawalAmount) {
-		if (withdrawalAmount > 0 && (balance - withdrawalAmount) > 0) {
+		if (withdrawalAmount > 0 && (balance - withdrawalAmount) > 300) {
 			return true;
 		}
 		else return false;
