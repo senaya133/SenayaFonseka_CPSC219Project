@@ -45,35 +45,29 @@ public class BankAccount {
 		else return false;
 	}
 	
-	public void deposit(double depositAmount) {
+	public boolean deposit(double depositAmount) {
 		if (depositAmount > 0) {
 			this.balance += depositAmount;
+			return true;
 		}
-		System.out.print(balance);
+		else return false;
 	}
 	
-	public Label withdraw(Label errorLabel, double withdrawalAmount) {
+	public boolean withdraw(double withdrawalAmount) {
 		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) >= 0.00) {
 			this.balance -= withdrawalAmount;
-			return errorLabel;
+			return true;
 		}
-		else {
-			errorLabel.setText("Insufficent funds in account. Please enter a valid amount");
-			return errorLabel;
-		}
-	}
-	
-	public void withdraw(double withdrawalAmount) {
-		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) >= 0.00) {
-			this.balance -= withdrawalAmount;
-		}
+		else return false;
 	}
 		
-	public void transfer(double transferAmount, BankAccount accountToTransferMoneyInto) {
+	public boolean transfer(double transferAmount, BankAccount accountToTransferMoneyInto) {
 		if (transferAmount > 0 && this.balance - transferAmount >= 0.00) {
 			withdraw(transferAmount);
 			accountToTransferMoneyInto.deposit(transferAmount);
+			return true;
 		}
+		else return false;
 	}
 	
 	public String accountLabel() {

@@ -100,8 +100,6 @@ public class BankingApplicationController {
 		return bankAccounts;
 	}
 	
-
-	
 	public double calculateTotalAmountFromAllBankAccounts(ArrayList<BankAccount> bankAccounts) {
 		double totalAmount = 0.00;
 		int index = 0;
@@ -111,8 +109,6 @@ public class BankingApplicationController {
 		}
 		return totalAmount;
 	}
-
-	
 	
     @FXML
     void showAccountsSummaryScene(ActionEvent event) {
@@ -134,7 +130,6 @@ public class BankingApplicationController {
         	bankAccountsHeader.getChildren().addAll(bankAccountsTitle,totalAmountLabel);
         	allRows.getChildren().addAll(welcomeLabel,accountsSummaryTitle,bankAccountsHeader);
             for (int index = 0;index < bankAccounts.size();index++) {
-            	System.out.println("Account details : "+index+"/"+bankAccounts.get(index).getAccountNumber()+"/"+bankAccounts.get(index).getAccountName()+"/"+bankAccounts.get(index).getBalance());
             	HBox bankAccountRow = new HBox();
             	bankAccountName = new Label((bankAccounts.get(index)).accountLabel());
             	HBox.setMargin(bankAccountName, new Insets(0,5,10,10));
@@ -157,23 +152,20 @@ public class BankingApplicationController {
     /* in general, most of the code for this method was used from the presentation Nov25_Using Multiple FXML files under content 
      * in the CPSC 219 D2L shell, with certain variables being changed for this project */
     void getAccountDetailsScene(ActionEvent event,BankAccount bankAccount) {
-    	
-    	System.out.println("ACCOUNT SELECTED.........................................");
-    	if (accountDetailsController == null) {
-    		try {
-    			FXMLLoader loader = new FXMLLoader();
-    			VBox root = loader.load(new FileInputStream("src/application/BankingApplicationAccountDetailsView.fxml"));
-    			accountDetailsController = (BankingApplicationAccountDetailsController)loader.getController();
-    			accountDetailsController.setApplicationStage(applicationStage);
-    			accountDetailsController.setBankAccount(bankAccount);
-    			accountDetailsController.setScene(new Scene(root,900,300));
-    			accountDetailsController.setNextController(this);
-    		} catch(Exception e) {
-    			e.printStackTrace();
-    		}
+    	try {
+    		FXMLLoader loader = new FXMLLoader();
+    		VBox root = loader.load(new FileInputStream("src/application/BankingApplicationAccountDetailsView.fxml"));
+    		accountDetailsController = (BankingApplicationAccountDetailsController)loader.getController();
+    		accountDetailsController.setApplicationStage(applicationStage);
+    		accountDetailsController.setBankAccount(bankAccount);
+    		accountDetailsController.setBankAccountsList(bankAccounts);
+    		accountDetailsController.setScene(new Scene(root,900,300));
+    		accountDetailsController.setNextController(this);
+    	} 
+    	catch(Exception e) {
+    		e.printStackTrace();
     	}
     	accountDetailsController.takeFocus();
-    	
     }
 
 }
