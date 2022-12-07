@@ -39,6 +39,9 @@ public class BankingApplicationAccountDetailsController {
     @FXML
     private Button withdrawButton;
     
+    @FXML 
+    private Label additionalAccountInfoMessage;
+    
     private ArrayList<BankAccount> bankAccounts;
 	
 	/* the creation of the setApplicationStage(). setScene(),setNextController(), and takeFocus() methods were all used based
@@ -64,6 +67,10 @@ public class BankingApplicationAccountDetailsController {
 		accountNameLabel.setText("Account: " + myBankAccount.getAccountName());
 	    accountNumberLabel.setText("Account Number: " + myBankAccount.getAccountNumber());
 	    accountCurrentBalanceLabel.setText(String.format("Current Balance: $%.2f CAD", myBankAccount.getBalance()));
+	    if (myBankAccount instanceof SavingsAccount) {
+	    	additionalAccountInfoMessage.setText("Note: " + myBankAccount.getAccountName() + " must maintain a minimum "
+	    			+ "balance of $300 CAD");
+	    }
 	}
 	
 	public void setNextController(BankingApplicationController next) {
