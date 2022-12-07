@@ -59,10 +59,10 @@ public class BankAccount {
 		else return false;
 	}
 		
-	public boolean transfer(double transferAmount, BankAccount accountToTransferMoneyInto) {
+	public boolean transfer(double transferAmount, BankAccount accountToTransferInto) {
 		if (transferAmount > 0 && this.balance - transferAmount >= 0.00) {
 			withdraw(transferAmount);
-			accountToTransferMoneyInto.deposit(transferAmount);
+			accountToTransferInto.deposit(transferAmount);
 			return true;
 		}
 		else return false;
