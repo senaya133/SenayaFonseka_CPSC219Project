@@ -1,5 +1,7 @@
 package application;
 
+import javafx.scene.control.Label;
+
 public class BankAccount {
 	// attributes/data
 	protected double balance;
@@ -37,7 +39,7 @@ public class BankAccount {
 	}
 	
 	protected boolean sufficientFunds(double withdrawalAmount) {
-		if (withdrawalAmount > 0 && (balance - withdrawalAmount) > 0) {
+		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) > 0) {
 			return true;
 		}
 		else return false;
@@ -45,26 +47,37 @@ public class BankAccount {
 	
 	public void deposit(double depositAmount) {
 		if (depositAmount > 0) {
-			balance += depositAmount;
+			this.balance += depositAmount;
 		}
 		System.out.print(balance);
 	}
 	
+	public Label withdraw(Label errorLabel, double withdrawalAmount) {
+		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) >= 0.00) {
+			this.balance -= withdrawalAmount;
+			return errorLabel;
+		}
+		else {
+			errorLabel.setText("Insufficent funds in account. Please enter a valid amount");
+			return errorLabel;
+		}
+	}
+	
 	public void withdraw(double withdrawalAmount) {
-		if (withdrawalAmount > 0 && balance - withdrawalAmount >= 0.00) {
-			balance -= withdrawalAmount;
+		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) >= 0.00) {
+			this.balance -= withdrawalAmount;
 		}
 	}
 		
 	public void transfer(double transferAmount, BankAccount accountToTransferMoneyInto) {
-		if (transferAmount > 0 && balance - transferAmount >= 0.00) {
+		if (transferAmount > 0 && this.balance - transferAmount >= 0.00) {
 			withdraw(transferAmount);
 			accountToTransferMoneyInto.deposit(transferAmount);
 		}
 	}
 	
 	public String accountLabel() {
-		String balanceAsString = String.format("$%.2f CAD", balance);
+		String balanceAsString = String.format("$%.2f CAD", this.balance);
 		return (accountName + " (" + accountNumber + "): " + balanceAsString);
 
 	}
