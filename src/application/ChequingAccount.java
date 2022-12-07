@@ -1,8 +1,12 @@
 package application;
 
 public class ChequingAccount extends BankAccount {
+	
+	private double minimumBalance;
+	
 	ChequingAccount(String nameOfAccount,String accountNumber) {
 		super(nameOfAccount,accountNumber);
+		minimumBalance = 0;
 	}
 	
 	public double getBalance() {
@@ -11,7 +15,7 @@ public class ChequingAccount extends BankAccount {
 	}
 	
 	protected boolean sufficientFunds(double withdrawalAmount) {
-		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) >= 0) {
+		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) >= minimumBalance) {
 			return true;
 		}
 		else return false;
@@ -33,10 +37,10 @@ public class ChequingAccount extends BankAccount {
 		else return false;
 	}
 		
-	public boolean transfer(double transferAmount, BankAccount accountToTransferMoneyInto) {
+	public boolean transfer(double transferAmount, BankAccount accountToTransferInto) {
 		if (sufficientFunds(transferAmount)) {
 			withdraw(transferAmount);
-			accountToTransferMoneyInto.deposit(transferAmount);
+			accountToTransferInto.deposit(transferAmount);
 			return true;
 		}
 		else return false;

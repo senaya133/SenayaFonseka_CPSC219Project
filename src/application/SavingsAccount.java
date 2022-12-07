@@ -1,8 +1,11 @@
 package application;
 
 public class SavingsAccount extends BankAccount {
+	private double minimumBalance;
+	
 	SavingsAccount(String nameOfAccount,String accountNumber) {
 		super(nameOfAccount,accountNumber);
+		minimumBalance = 300;
 	}
 	
 	public double getBalance() {
@@ -11,7 +14,7 @@ public class SavingsAccount extends BankAccount {
 	}
 	
 	protected boolean sufficientFunds(double withdrawalAmount) {
-		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) >= 300) {
+		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) >= minimumBalance) {
 			return true;
 		}
 		else return false;
@@ -33,10 +36,10 @@ public class SavingsAccount extends BankAccount {
 		else return false;
 	}
 		
-	public boolean transfer(double transferAmount, BankAccount accountToTransferMoneyInto) {
+	public boolean transfer(double transferAmount, BankAccount accountToTransferInto) {
 		if (sufficientFunds(transferAmount)) {
 			withdraw(transferAmount);
-			accountToTransferMoneyInto.deposit(transferAmount);
+			accountToTransferInto.deposit(transferAmount);
 			return true;
 		}
 		else return false;
