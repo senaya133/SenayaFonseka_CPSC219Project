@@ -18,6 +18,7 @@ public class ChequingAccount extends BankAccount {
 		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) >= minimumBalance) {
 			return true;
 		}
+		
 		else return false;
 	}
 	
@@ -26,6 +27,7 @@ public class ChequingAccount extends BankAccount {
 			this.balance += depositAmount;
 			return true;
 		}
+		
 		else return false;
 	}
 	
@@ -34,6 +36,7 @@ public class ChequingAccount extends BankAccount {
 			this.balance -= withdrawalAmount;
 			return true;
 		}
+		
 		else return false;
 	}
 		
@@ -43,6 +46,7 @@ public class ChequingAccount extends BankAccount {
 			accountToTransferInto.deposit(transferAmount);
 			return true;
 		}
+		
 		else return false;
 	}
 	

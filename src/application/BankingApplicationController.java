@@ -44,13 +44,17 @@ public class BankingApplicationController {
 		applicationStage = aStage;
 	}
 	
+	
 	/* the code from this method mainly came from the Nov25_Using Multiple FXML files presentation which is under content in 
 	 * the CPSC 219 D2L shell */
 	public void takeFocus() {
 		applicationStage.setScene(accountsSummaryScene);
 		applicationStage.setTitle("Accounts Summary");
+		
 		double totalAmountFromAllBankAccounts = calculateTotalAmountFromAllBankAccounts(bankAccounts);
 		totalAmountLabel.setText(String.format("Total:  $%.2f CAD", totalAmountFromAllBankAccounts));
+		
+		
 		int index = 0;
 		while (index < bankAccounts.size()) {
 			ObservableList<Node> nodesOfBankAccountRow = bankAccountRows.get(index).getChildren();
@@ -65,7 +69,6 @@ public class BankingApplicationController {
 	 * are inclusive)
 	 */
 	private static int getRandomNumberInRange(int min, int max) {
-
 		if (min >= max) {
 			throw new IllegalArgumentException("max must be greater than min");
 		}
@@ -76,10 +79,13 @@ public class BankingApplicationController {
 	
 	private ArrayList<BankAccount> createBankAccounts() {
 		ArrayList<BankAccount> bankAccounts = new ArrayList<BankAccount>();
+		
 		String chequingAccountNumber = "12345-" + getRandomNumberInRange(10,99) + "-" + getRandomNumberInRange(10000,99999);
         String savingsAccountNumber = "12345-" + getRandomNumberInRange(10,99) + "-" + getRandomNumberInRange(10000,99999);
-		ChequingAccount primaryChequingAccount = new ChequingAccount("Chequing Account",chequingAccountNumber);
+		
+        ChequingAccount primaryChequingAccount = new ChequingAccount("Chequing Account",chequingAccountNumber);
     	SavingsAccount primarySavingsAccount = new SavingsAccount("Savings Account",savingsAccountNumber);
+    	
     	bankAccounts.add(primaryChequingAccount);
     	bankAccounts.add(primarySavingsAccount);
     	this.bankAccounts = bankAccounts;
@@ -89,10 +95,12 @@ public class BankingApplicationController {
 	private double calculateTotalAmountFromAllBankAccounts(ArrayList<BankAccount> bankAccounts) {
 		double totalAmount = 0.00;
 		int index = 0;
+		
 		while (index < bankAccounts.size()) {
 			totalAmount += ((BankAccount)bankAccounts.get(index)).getBalance();
 			index++;
 		}
+		
 		return totalAmount;
 	}
 	
@@ -101,6 +109,7 @@ public class BankingApplicationController {
     	VBox allRows = new VBox();
     	accountsSummaryScene = new Scene(allRows,700,600);
         String nameEntered = enterNameTextfield.getText();
+        
         if (nameEntered != "") {
         	Label welcomeLabel = new Label("Welcome " + nameEntered + "!");
         	VBox.setMargin(welcomeLabel, new Insets(10,5,10,5));
@@ -109,12 +118,13 @@ public class BankingApplicationController {
         	HBox bankAccountsHeader = new HBox();
         	Label bankAccountsTitle = new Label("Bank Accounts");
         	HBox.setMargin(bankAccountsTitle, new Insets(0,5,10,5));
-        	ArrayList<BankAccount> bankAccounts = createBankAccounts();
+        	ArrayList<BankAccount> bankAccounts = createBankAccounts(); // two bank accounts are created
         	double totalAmountFromAllBankAccounts = calculateTotalAmountFromAllBankAccounts(bankAccounts);
         	totalAmountLabel = new Label(String.format("Total:  $%.2f CAD", totalAmountFromAllBankAccounts));
         	HBox.setMargin(totalAmountLabel, new Insets(0,5,10,200));
         	bankAccountsHeader.getChildren().addAll(bankAccountsTitle,totalAmountLabel);
         	allRows.getChildren().addAll(welcomeLabel,accountsSummaryTitle,bankAccountsHeader);
+        	
             for (int index = 0;index < bankAccounts.size();index++) {
             	HBox bankAccountRow = new HBox();
             	bankAccountName = new Label((bankAccounts.get(index)).accountLabel());
@@ -127,7 +137,6 @@ public class BankingApplicationController {
                 bankAccountRows.add(bankAccountRow);
             	allRows.getChildren().add(bankAccountRow);
             }
-        	
         	applicationStage.setScene(accountsSummaryScene);
         }
         else {
@@ -148,9 +157,11 @@ public class BankingApplicationController {
     		accountDetailsController.setScene(new Scene(root,900,300));
     		accountDetailsController.setNextController(this);
     	} 
+    	
     	catch(Exception e) {
     		e.printStackTrace();
     	}
+    	
     	accountDetailsController.takeFocus();
     }
 

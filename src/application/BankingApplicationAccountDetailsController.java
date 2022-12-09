@@ -63,10 +63,15 @@ public class BankingApplicationAccountDetailsController {
 	
 	public void setScene(Scene accountDetailsScene) {
 		myScene = accountDetailsScene;
+		
 		applicationStage.setTitle("Account Details");
+		
 		accountNameLabel.setText("Account: " + myBankAccount.getAccountName());
+		
 	    accountNumberLabel.setText("Account Number: " + myBankAccount.getAccountNumber());
+	    
 	    accountCurrentBalanceLabel.setText(String.format("Current Balance: $%.2f CAD", myBankAccount.getBalance()));
+	   
 	    if (myBankAccount instanceof SavingsAccount) {
 	    	additionalAccountInfoMessage.setText("Note: " + myBankAccount.getAccountName() + " must maintain a minimum "
 	    			+ "balance of $300 CAD");
@@ -83,9 +88,13 @@ public class BankingApplicationAccountDetailsController {
 	
 	private void returnToAccountDetailsScene() {
 		applicationStage.setTitle("Account Details");
+		
 		accountNameLabel.setText("Account: " + myBankAccount.getAccountName());
+		
 	    accountNumberLabel.setText("Account Number: " + myBankAccount.getAccountNumber());
+	    
 	    accountCurrentBalanceLabel.setText(String.format("Current Balance: $%.2f CAD", myBankAccount.getBalance()));
+	    
 	    applicationStage.setScene(myScene);
 	}
 	
@@ -94,35 +103,25 @@ public class BankingApplicationAccountDetailsController {
 		Scene depositInfoScene = new Scene(allRows,600,600);
 		Label enterAmountPrompt = new Label("Enter the amount that you would like to deposit: ");
 		VBox.setMargin(enterAmountPrompt, new Insets(10,10,10,10));
+		
 		TextField enterAmountTextfield = new TextField();
 		Label currencyLabel = new Label("CAD");
 		HBox enterAmountRow = new HBox();
 		enterAmountRow.getChildren().addAll(enterAmountTextfield,currencyLabel);
 		HBox.setMargin(enterAmountTextfield, new Insets(0,5,10,10));
 		HBox.setMargin(currencyLabel, new Insets(0,10,10,5));
+		
 		Label responseToUserInputMessage = new Label("");
 		Button depositMoneyButton = new Button("Deposit money");
-		depositMoneyButton.setOnAction(doneEvent -> {
-			String enteredAmount = enterAmountTextfield.getText();
-			try {
-				boolean noErrors = myBankAccount.deposit(Double.parseDouble(enteredAmount));
-				if (noErrors) {
-					responseToUserInputMessage.setText(String.format("You have deposited $%.2f CAD into " + 
-				myBankAccount.getAccountName(),Double.parseDouble(enteredAmount)));
-				}
-				else responseToUserInputMessage.setText("Error: " + enteredAmount + " is not a valid amount.");
-			}
-			catch (NumberFormatException nfe) {
-				responseToUserInputMessage.setText("Error: " + enteredAmount + " is not a valid amount.");
-			}
-			
-		});
+		depositMoneyButton.setOnAction(doneEvent -> depositMoneyButtonAction(enterAmountTextfield,
+				responseToUserInputMessage));
 		Button returnButton = new Button("Return to Account Details");
 		returnButton.setOnAction(doneEvent -> returnToAccountDetailsScene());
 		HBox buttonRow = new HBox();
 		buttonRow.getChildren().addAll(depositMoneyButton,returnButton);
 		HBox.setMargin(depositMoneyButton, new Insets(10,10,10,10));
 		HBox.setMargin(returnButton, new Insets(10,10,10,10));
+		
 		allRows.getChildren().addAll(enterAmountPrompt,enterAmountRow,buttonRow,responseToUserInputMessage);
 		VBox.setMargin(responseToUserInputMessage, new Insets(10,10,10,10));
 		applicationStage.setScene(depositInfoScene);
@@ -133,34 +132,25 @@ public class BankingApplicationAccountDetailsController {
 		Scene withdrawalInfoScene = new Scene(allRows,600,600);
 		Label enterAmountPrompt = new Label("Enter the amount that you would like to withdraw: ");
 		VBox.setMargin(enterAmountPrompt, new Insets(10,10,10,10));
+		
 		TextField enterAmountTextfield = new TextField();
 		Label currencyLabel = new Label("CAD");
 		HBox enterAmountRow = new HBox();
 		enterAmountRow.getChildren().addAll(enterAmountTextfield,currencyLabel);
 		HBox.setMargin(enterAmountTextfield, new Insets(0,5,10,10));
 		HBox.setMargin(currencyLabel, new Insets(0,10,10,5));
+		
 		Label responseToUserInputMessage = new Label("");
 		Button withdrawMoneyButton = new Button("Withdraw money");
-		withdrawMoneyButton.setOnAction(doneEvent -> {
-			String enteredAmount = enterAmountTextfield.getText();
-			try {
-				boolean noErrors = myBankAccount.withdraw(Double.parseDouble(enteredAmount));
-				if (noErrors) {
-					responseToUserInputMessage.setText(String.format("You have withdrawed $%.2f CAD from " + 
-				myBankAccount.getAccountName(),Double.parseDouble(enteredAmount)));
-				}
-				else responseToUserInputMessage.setText("Error: " + enteredAmount + " is not a valid amount.");
-			}
-			catch (NumberFormatException nfe) {
-				responseToUserInputMessage.setText("Error: " + enteredAmount + " is not a valid amount.");
-			}		
-		});
+		withdrawMoneyButton.setOnAction(doneEvent -> withdrawMoneyButtonAction(enterAmountTextfield,
+				responseToUserInputMessage));
 		Button returnButton = new Button("Return to Account Details");
 		returnButton.setOnAction(doneEvent -> returnToAccountDetailsScene());
 		HBox buttonRow = new HBox();
 		buttonRow.getChildren().addAll(withdrawMoneyButton,returnButton);
 		HBox.setMargin(withdrawMoneyButton, new Insets(10,10,10,10));
 		HBox.setMargin(returnButton, new Insets(10,10,10,10));
+		
 		allRows.getChildren().addAll(enterAmountPrompt,enterAmountRow,buttonRow,responseToUserInputMessage);
 		VBox.setMargin(responseToUserInputMessage, new Insets(10,10,10,10));
 		applicationStage.setScene(withdrawalInfoScene);
@@ -170,17 +160,15 @@ public class BankingApplicationAccountDetailsController {
 		BankAccount accountToTransferInto;
 		VBox allRows = new VBox();
 		Scene transferInfoScene = new Scene(allRows,600,600);
-		if (myBankAccount instanceof ChequingAccount) {
-			accountToTransferInto = bankAccounts.get(1);
-		}
-		else {
-			accountToTransferInto = bankAccounts.get(0);
-		}
+		if (myBankAccount instanceof ChequingAccount) accountToTransferInto = bankAccounts.get(1);
+		else accountToTransferInto = bankAccounts.get(0);
+		
 		Label accountThatUserTransfersIntoLabel = new Label("Account that you are transferring into: "
 				+ accountToTransferInto.getAccountName());
 		Label enterAmountPrompt = new Label("Enter the amount that you would like to transfer from "
 				+ myBankAccount.getAccountName());
 		VBox.setMargin(enterAmountPrompt, new Insets(10,10,10,10));
+		
 		TextField enterAmountTextfield = new TextField();
 		Label currencyLabel = new Label("CAD");
 		HBox enterAmountRow = new HBox();
@@ -189,37 +177,86 @@ public class BankingApplicationAccountDetailsController {
 		HBox.setMargin(currencyLabel, new Insets(0,10,10,5));
 		Label responseToUserInputMessage = new Label("");
 		Button transferMoneyButton = new Button("Transfer money");
-		transferMoneyButton.setOnAction(doneEvent -> {
-			String enteredAmount = enterAmountTextfield.getText();
-			try {
-				boolean noErrors = myBankAccount.transfer(Double.parseDouble(enteredAmount),accountToTransferInto);
-				if (noErrors) {
-					responseToUserInputMessage.setText(String.format("You have transfered $%.2f CAD from " + 
-				myBankAccount.getAccountName() + " to " + accountToTransferInto.getAccountName(),
-				Double.parseDouble(enteredAmount)));
-				}
-				else responseToUserInputMessage.setText("Error: " + enteredAmount + " is not a valid amount.");
-			}
-			catch (NumberFormatException nfe) {
-				responseToUserInputMessage.setText("Error: " + enteredAmount + " is not a valid amount.");
-			}		
-		});
+		transferMoneyButton.setOnAction(doneEvent -> transferMoneyButtonAction(accountToTransferInto,
+				enterAmountTextfield,responseToUserInputMessage));
 		Button returnButton = new Button("Return to Account Details");
 		returnButton.setOnAction(doneEvent -> returnToAccountDetailsScene());
+		
 		HBox buttonRow = new HBox();
 		buttonRow.getChildren().addAll(transferMoneyButton,returnButton);
 		HBox.setMargin(transferMoneyButton, new Insets(10,10,10,10));
 		HBox.setMargin(returnButton, new Insets(10,10,10,10));
-		allRows.getChildren().addAll(accountThatUserTransfersIntoLabel,enterAmountPrompt,enterAmountRow,buttonRow,responseToUserInputMessage);
+		allRows.getChildren().addAll(accountThatUserTransfersIntoLabel,enterAmountPrompt,enterAmountRow,
+				buttonRow,responseToUserInputMessage);
 		VBox.setMargin(accountThatUserTransfersIntoLabel, new Insets(10,10,10,10));
 		VBox.setMargin(responseToUserInputMessage, new Insets(10,10,10,10));
 		applicationStage.setScene(transferInfoScene);
 	}
 	
+	private void depositMoneyButtonAction(TextField enterAmountTextfield, Label responseToUserInputMessage) {
+		String enteredAmount = enterAmountTextfield.getText();
+		try {	
+			boolean noErrors = myBankAccount.deposit(Double.parseDouble(enteredAmount));
+			
+			if (noErrors) {
+				responseToUserInputMessage.setText(String.format("You have deposited $%.2f CAD into " + 
+			myBankAccount.getAccountName(),Double.parseDouble(enteredAmount)));
+			}
+			
+			else responseToUserInputMessage.setText("Error: $" + enteredAmount + " is not a valid amount.");
+		}
+		
+		catch (NumberFormatException nfe) {
+			responseToUserInputMessage.setText("Error: $" + enteredAmount + " is not a valid amount.");
+		}
+		
+	}
+	
+	private void withdrawMoneyButtonAction(TextField enterAmountTextfield, Label responseToUserInputMessage) {
+		String enteredAmount = enterAmountTextfield.getText();
+		
+		try {
+			boolean noErrors = myBankAccount.withdraw(Double.parseDouble(enteredAmount));
+			
+			if (noErrors) {
+				responseToUserInputMessage.setText(String.format("You have withdrawed $%.2f CAD from " + 
+			myBankAccount.getAccountName(),Double.parseDouble(enteredAmount)));
+			}
+			
+			else responseToUserInputMessage.setText("Error: $" + enteredAmount + " is not a valid amount.");
+		}
+		
+		catch (NumberFormatException nfe) {
+			responseToUserInputMessage.setText("Error: $" + enteredAmount + " is not a valid amount.");
+		}
+	}
+	
+	private void transferMoneyButtonAction(BankAccount accountToTransferInto, TextField enterAmountTextfield,
+			Label responseToUserInputMessage) {
+		String enteredAmount = enterAmountTextfield.getText();
+		
+		try {
+			boolean noErrors = myBankAccount.transfer(Double.parseDouble(enteredAmount),accountToTransferInto);
+			
+			if (noErrors) {
+				responseToUserInputMessage.setText(String.format("You have transfered $%.2f CAD from " + 
+			myBankAccount.getAccountName() + " to " + accountToTransferInto.getAccountName(),
+			Double.parseDouble(enteredAmount)));
+			}
+			
+			else responseToUserInputMessage.setText("Error: $" + enteredAmount + " is not a valid amount.");
+		}
+		
+		catch (NumberFormatException nfe) {
+			responseToUserInputMessage.setText("Error: $" + enteredAmount + " is not a valid amount.");
+		}
+		
+	}
+	
 	@FXML
-	private void getAccountsSummaryScene(ActionEvent event) {
-		if (nextController != null) {
-			nextController.takeFocus();
+	private void getAccountsSummaryScene(ActionEvent event) {	
+		if (nextController != null) {		
+			nextController.takeFocus();	
     	}
 	}
 

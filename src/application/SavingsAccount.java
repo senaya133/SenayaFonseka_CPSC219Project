@@ -17,6 +17,7 @@ public class SavingsAccount extends BankAccount {
 		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) >= minimumBalance) {
 			return true;
 		}
+		
 		else return false;
 	}
 	
@@ -25,6 +26,7 @@ public class SavingsAccount extends BankAccount {
 			this.balance += depositAmount;
 			return true;
 		}
+		
 		else return false;
 	}
 	
@@ -33,6 +35,7 @@ public class SavingsAccount extends BankAccount {
 			this.balance -= withdrawalAmount;
 			return true;
 		}
+		
 		else return false;
 	}
 		
@@ -42,6 +45,7 @@ public class SavingsAccount extends BankAccount {
 			accountToTransferInto.deposit(transferAmount);
 			return true;
 		}
+		
 		else return false;
 	}
 	

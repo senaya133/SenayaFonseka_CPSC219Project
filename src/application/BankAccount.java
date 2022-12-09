@@ -40,6 +40,7 @@ public class BankAccount {
 		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) > 0) {
 			return true;
 		}
+		
 		else return false;
 	}
 	
@@ -48,14 +49,16 @@ public class BankAccount {
 			this.balance += depositAmount;
 			return true;
 		}
+		
 		else return false;
 	}
 	
-	public boolean withdraw(double withdrawalAmount) {
+	public boolean withdraw(double withdrawalAmount) {	
 		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) >= 0.00) {
 			this.balance -= withdrawalAmount;
 			return true;
 		}
+		
 		else return false;
 	}
 		
@@ -65,13 +68,13 @@ public class BankAccount {
 			accountToTransferInto.deposit(transferAmount);
 			return true;
 		}
+		
 		else return false;
 	}
 	
 	public String accountLabel() {
 		String balanceAsString = String.format("$%.2f CAD", this.balance);
 		return (accountName + " (" + accountNumber + "): " + balanceAsString);
-
 	}
 
 }
