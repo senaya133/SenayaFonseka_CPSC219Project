@@ -37,36 +37,44 @@ public class BankAccount {
 	}
 	
 	protected boolean sufficientFunds(double withdrawalAmount) {
-		if (withdrawalAmount > 0 && (balance - withdrawalAmount) > 0) {
+		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) > 0) {
 			return true;
 		}
+		
 		else return false;
 	}
 	
-	public void deposit(double depositAmount) {
+	public boolean deposit(double depositAmount) {
 		if (depositAmount > 0) {
-			balance += depositAmount;
+			this.balance += depositAmount;
+			return true;
 		}
-		System.out.print(balance);
+		
+		else return false;
 	}
 	
-	public void withdraw(double withdrawalAmount) {
-		if (withdrawalAmount > 0 && balance - withdrawalAmount >= 0.00) {
-			balance -= withdrawalAmount;
+	public boolean withdraw(double withdrawalAmount) {	
+		if (withdrawalAmount > 0 && (this.balance - withdrawalAmount) >= 0.00) {
+			this.balance -= withdrawalAmount;
+			return true;
 		}
+		
+		else return false;
 	}
 		
-	public void transfer(double transferAmount, BankAccount accountToTransferMoneyInto) {
-		if (transferAmount > 0 && balance - transferAmount >= 0.00) {
+	public boolean transfer(double transferAmount, BankAccount accountToTransferInto) {
+		if (transferAmount > 0 && this.balance - transferAmount >= 0.00) {
 			withdraw(transferAmount);
-			accountToTransferMoneyInto.deposit(transferAmount);
+			accountToTransferInto.deposit(transferAmount);
+			return true;
 		}
+		
+		else return false;
 	}
 	
 	public String accountLabel() {
-		String balanceAsString = String.format("$%.2f CAD", balance);
+		String balanceAsString = String.format("$%.2f CAD", this.balance);
 		return (accountName + " (" + accountNumber + "): " + balanceAsString);
-
 	}
 
 }
