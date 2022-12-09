@@ -202,6 +202,10 @@ public class BankingApplicationAccountDetailsController {
 	 * Creates a new scene for the user to enter the amount of money they would like to transfer from their
 	 * bank account of interest (the one that the button "Transfer" was clicked for in its account details
 	 * scene) into the other bank account
+	 * In this method, the keyword 'instanceOf' is used to determine a bank account was a savings account.
+	 * Guidance from this source (https://www.webucator.com/article/how-to-check-object-type-in-java/#:~:
+	 * text=You%20can%20check%20object%20type,and%20integer%20representations%20of%20numbers.) helped with 
+	 * the implementation of this feature
 	 * @param event when the user clicks on the "Transfer" button in the account details scene
 	 */
 	public void getTransferInformation(ActionEvent event) {

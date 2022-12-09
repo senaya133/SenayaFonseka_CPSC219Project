@@ -55,10 +55,10 @@ public class BankingApplicationController {
 		totalAmountLabel.setText(String.format("Total:  $%.2f CAD", totalAmountFromAllBankAccounts));
 		
 		int index = 0;
-		while (index < bankAccounts.size()) {
+		while (index < bankAccounts.size()) { // this loop updates the account labels to show updated balances
 			ObservableList<Node> nodesOfBankAccountRow = bankAccountRows.get(index).getChildren();
 			Label bankAccountName = (Label) nodesOfBankAccountRow.get(0);
-			bankAccountName.setText((bankAccounts.get(index)).accountLabel());
+			bankAccountName.setText((bankAccounts.get(index)).accountLabel()); 
 			index++;
 		}
 	}
@@ -133,12 +133,12 @@ public class BankingApplicationController {
         String nameEntered = enterNameTextfield.getText();
         
         if (nameEntered != "") {
-        	Label welcomeLabel = new Label("Welcome " + nameEntered + "!");
+        	Label welcomeLabel = new Label("Welcome " + nameEntered + "!"); // user's name in welcome message
         	VBox.setMargin(welcomeLabel, new Insets(10,5,10,5));
-        	Label accountsSummaryTitle = new Label("Accounts Summary");
+        	Label accountsSummaryTitle = new Label("Accounts Summary"); // main header (title) of scene
         	VBox.setMargin(accountsSummaryTitle, new Insets(10,5,10,5));
         	HBox bankAccountsHeader = new HBox();
-        	Label bankAccountsTitle = new Label("Bank Accounts");
+        	Label bankAccountsTitle = new Label("Bank Accounts"); // bank accounts header
         	HBox.setMargin(bankAccountsTitle, new Insets(0,5,10,5));
         	ArrayList<BankAccount> bankAccounts = createBankAccounts(); // two bank accounts are created
         	double totalAmountFromAllBankAccounts = calculateTotalAmountFromAllBankAccounts(bankAccounts);
