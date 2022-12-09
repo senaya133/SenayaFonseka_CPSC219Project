@@ -47,20 +47,40 @@ public class BankingApplicationAccountDetailsController {
 	/* the creation of the setApplicationStage(). setScene(),setNextController(), and takeFocus() methods were all used based
 	 * on what was suggested in the Nov25_Using Multiple FXML files presentation which is under content in the CPSC 219 D2L shell
 	 */
-	
+	/**
+	 * Sets the stage for the account details scene to be set on
+	 * @param aStage 
+	 */
 	public void setApplicationStage(Stage aStage) {
 		applicationStage = aStage;
 	}
 	
+	/**
+	 * Sets the bank account of interest for this controller when generating the account details scene
+	 * so the information from the bank account (ie. account name, account number, balance, etc) is 
+	 * accessible from this controller
+	 * @param bankAccount the account that the account details scene will be generated for
+	 */
 	public void setBankAccount(BankAccount bankAccount) {
 		myBankAccount = bankAccount;
 		
 	}
 	
+	/**
+	 * Sets the list of bank accounts that the user has so that it is accessible from this controller
+	 * @param bankAccounts the list containing the two bank accounts (the chequing account and savings account)
+	 */
 	public void setBankAccountsList(ArrayList<BankAccount> bankAccounts) {
 		this.bankAccounts = bankAccounts;
 	}
 	
+	/**
+	 * Creates and modifies the layout of the account details scene for a particular bank account which
+	 * includes the account name, account number, and the current balance. If the account happens to be the 
+	 * savings account then a message is displayed saying that the account must maintain $300 in order for
+	 * any withdrawal from the account to occur
+	 * @param accountDetailsScene the scene showing the account details for a particular bank account
+	 */
 	public void setScene(Scene accountDetailsScene) {
 		myScene = accountDetailsScene;
 		
@@ -74,18 +94,30 @@ public class BankingApplicationAccountDetailsController {
 	   
 	    if (myBankAccount instanceof SavingsAccount) {
 	    	additionalAccountInfoMessage.setText("Note: " + myBankAccount.getAccountName() + " must maintain a minimum "
-	    			+ "balance of $300 CAD");
+	    			+ "balance of $300 CAD in order for withdrawal from the account to occur");
 	    }
 	}
 	
+	/**
+	 * Sets the BankingApplicationController as the next controller to switch to when the user decides to 
+	 * return to the accounts summary
+	 * @param next (the BankingApplicationController)
+	 */
 	public void setNextController(BankingApplicationController next) {
 		nextController = next;
 	}
 	
+	/**
+	 * Takes the user to the account details scene from the accounts summary scene
+	 */
 	public void takeFocus() {
 		applicationStage.setScene(myScene);
 	}
 	
+	/**
+	 * Updates and takes the user back to the accounts summary scene from any of the deposit, withdrawal,
+	 * or transfer information scenes 
+	 */
 	private void returnToAccountDetailsScene() {
 		applicationStage.setTitle("Account Details");
 		
@@ -98,6 +130,11 @@ public class BankingApplicationAccountDetailsController {
 	    applicationStage.setScene(myScene);
 	}
 	
+	/**
+	 * Creates a new scene for the user to enter the amount of money they would like to deposit into their
+	 * bank account of interest. 
+	 * @param event when the user clicks on the "Deposit" button in the account details scene
+	 */
 	public void getDepositInformation(ActionEvent event) {
 		VBox allRows = new VBox();
 		Scene depositInfoScene = new Scene(allRows,600,600);
@@ -126,7 +163,12 @@ public class BankingApplicationAccountDetailsController {
 		VBox.setMargin(responseToUserInputMessage, new Insets(10,10,10,10));
 		applicationStage.setScene(depositInfoScene);
 	}
-
+	
+	/**
+	 * Creates a new scene for the user to enter the amount of money they would like to withdraw from their
+	 * bank account of interest
+	 * @param event when the user clicks on the "Withdraw" button in the account details scene
+	 */
 	public void getWithdrawalInformation(ActionEvent event) {
 		VBox allRows = new VBox();
 		Scene withdrawalInfoScene = new Scene(allRows,600,600);
@@ -156,6 +198,16 @@ public class BankingApplicationAccountDetailsController {
 		applicationStage.setScene(withdrawalInfoScene);
 	}
 	
+	/**
+	 * Creates a new scene for the user to enter the amount of money they would like to transfer from their
+	 * bank account of interest (the one that the button "Transfer" was clicked for in its account details
+	 * scene) into the other bank account
+	 * In this method, the keyword 'instanceOf' is used to determine a bank account was a savings account.
+	 * Guidance from this source (https://www.webucator.com/article/how-to-check-object-type-in-java/#:~:
+	 * text=You%20can%20check%20object%20type,and%20integer%20representations%20of%20numbers.) helped with 
+	 * the implementation of this feature
+	 * @param event when the user clicks on the "Transfer" button in the account details scene
+	 */
 	public void getTransferInformation(ActionEvent event) {
 		BankAccount accountToTransferInto;
 		VBox allRows = new VBox();
@@ -193,6 +245,15 @@ public class BankingApplicationAccountDetailsController {
 		applicationStage.setScene(transferInfoScene);
 	}
 	
+	/**
+	 * Checks to see if the user entered a reasonable deposit amount for their bank account. If the amount
+	 * is considered valid, the deposit will occur and a confirmation message saying so will be displayed.
+	 * If the amount entered by the user is not valid, the deposit will not have occurred and an error
+	 * message will be displayed to the user
+	 * @param enterAmountTextfield the text field that the user will have entered their deposit amount into
+	 * @param responseToUserInputMessage the label that either displays a confirmation message for the 
+	 * deposit transaction or an error message for invalid user input
+	 */
 	private void depositMoneyButtonAction(TextField enterAmountTextfield, Label responseToUserInputMessage) {
 		String enteredAmount = enterAmountTextfield.getText();
 		try {	
@@ -212,6 +273,15 @@ public class BankingApplicationAccountDetailsController {
 		
 	}
 	
+	/**
+	 * Checks to see if the user entered a reasonable withdrawal amount for their bank account. If the amount
+	 * is considered valid, the withdrawal will occur and a confirmation message saying so will be displayed.
+	 * If the amount entered by the user is not valid, the withdrawal will not have occurred and an error
+	 * message will be displayed to the user
+	 * @param enterAmountTextfield the text field that the user will have entered their withdrawal amount into
+	 * @param responseToUserInputMessage the label that either displays a confirmation message for the 
+	 * withdrawal transaction or an error message for invalid user input
+	 */
 	private void withdrawMoneyButtonAction(TextField enterAmountTextfield, Label responseToUserInputMessage) {
 		String enteredAmount = enterAmountTextfield.getText();
 		
@@ -231,6 +301,16 @@ public class BankingApplicationAccountDetailsController {
 		}
 	}
 	
+	/**
+	 * Checks to see if the user entered a reasonable transfer amount for their bank account. If the amount
+	 * is considered valid, the transfer will occur from the bank account of interest to the other account
+	 * and a confirmation message saying so will be displayed. If the amount entered by the user is not valid,
+	 * the withdrawal will not have occurred and an error message will be displayed to the user
+	 * @param accountToTransferInto the bank account that the user's entered amount will be transferred into
+	 * @param enterAmountTextfield the text field that the user will have entered their transfer amount into
+	 * @param responseToUserInputMessage the label that either displays a confirmation message for the 
+	 * transfer transaction or an error message for invalid user input
+	 */
 	private void transferMoneyButtonAction(BankAccount accountToTransferInto, TextField enterAmountTextfield,
 			Label responseToUserInputMessage) {
 		String enteredAmount = enterAmountTextfield.getText();
@@ -253,6 +333,11 @@ public class BankingApplicationAccountDetailsController {
 		
 	}
 	
+	/**
+	 * Takes the user back to the accounts summary scene that shows all the user's bank accounts
+	 * @param event when the user clicks on the button "Return to Accounts Summary" in the account details
+	 * scene
+	 */
 	@FXML
 	private void getAccountsSummaryScene(ActionEvent event) {	
 		if (nextController != null) {		
